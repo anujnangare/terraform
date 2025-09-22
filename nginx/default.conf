@@ -1,0 +1,25 @@
+server {
+    listen 80;
+    server_name _;
+
+    root /var/www/html;
+    index index.php index.html;
+
+    # Serve static files directly
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # Pass PHP scripts to PHP-FPM
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass php:9000;
+        fastcgi_index index.php;
+    }
+
+    # Deny access to .ht* files
+    location ~ /\.ht {
+        deny all;
+    }
+}
