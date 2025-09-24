@@ -1,25 +1,15 @@
-server {
-    listen 80;
-    server_name _;
+CREATE DATABASE IF NOT EXISTS myappdb;
+USE myappdb;
 
-    root /var/www/html;
-    index index.php index.html;
+CREATE TABLE IF NOT EXISTS greetings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-    # Serve static files directly
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
+INSERT INTO greetings (name, message) VALUES
+('Alice', 'Hello from Alice from pune!'),
+('Bob', 'Welcome to the 3-tier demo in cbz'),
+('Carol', 'This is a simple MySQL -> PHP -> NGINX example okkk');
 
-    # Pass PHP scripts to PHP-FPM
-    location ~ \.php$ {
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_pass php:9000;
-        fastcgi_index index.php;
-    }
-
-    # Deny access to .ht* files
-    location ~ /\.ht {
-        deny all;
-    }
-}

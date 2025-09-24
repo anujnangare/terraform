@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/init-db.php';
+
 // Read DB settings from environment
 $dbHost = getenv('DB_HOST') ?: 'db';
 $dbName = getenv('DB_NAME') ?: 'myappdb';
